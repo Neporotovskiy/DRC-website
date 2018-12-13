@@ -1,0 +1,90 @@
+:local {
+    #files-target {
+        display: none;
+    }
+
+    .files-selector {
+        display: flex;
+        height: 200px;
+        background: #eee;
+        border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+
+        &.hovered {
+            background: #ccc;
+        }
+
+        &.leaved {
+            background: #eee;
+        }
+    }
+
+    .uploaded-files {
+        list-style: none;
+        margin: 0 0 20px;
+        padding: 0;
+
+        .file-item {
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 10px;
+            padding: 5px 5px 5px 10px;
+            background: #eee;
+            border-radius: 5px;
+
+            .name {
+                opacity: .2;
+                margin-right: 5px;
+            }
+
+            .size {
+                margin-right: 5px;
+                color: #bbb;
+                font-size: 10px;
+
+                &::after {
+                    content: 'kb';
+                }
+            }
+
+            .processable {
+                opacity: 1;
+            }
+
+            .remove-button {
+                display: inline-block;
+                position: relative;
+                width: 20px;
+                height: 20px;
+                vertical-align: text-bottom;
+                cursor: pointer;
+
+                &::before,
+                &::after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 9px;
+                    left: 1px;
+                    width: 18px;
+                    height: 2px;
+                    border-radius: 5px;
+                    background: #bbb;
+                }
+
+                &::before {
+                    transform: rotate(45deg);
+                }
+                &::after {
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+    }
+}

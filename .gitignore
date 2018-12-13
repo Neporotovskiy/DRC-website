@@ -1,0 +1,12 @@
+/node_modules/
+/cache
+/build
+
+/.idea
+/.vscode
+
+yarn.*
+.git*
+!.gitignore
+*.json
+!package.json

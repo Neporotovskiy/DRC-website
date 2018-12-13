@@ -1,0 +1,46 @@
+{
+    "name": "delma-resource-calculator",
+    "version": "1.0.0",
+    "author": "Anton Neporotovskiy",
+    "license": "MIT",
+    "scripts": {
+        "clear": "rimraf cache build dist",
+        "start": "yarn clear && webpack-dev-server --mode=development",
+        "build": "yarn clear && webpack --mode=production"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.1.6",
+        "@babel/plugin-proposal-class-properties": "^7.1.0",
+        "@babel/plugin-proposal-do-expressions": "^7.2.0",
+        "@babel/preset-env": "^7.1.6",
+        "@babel/preset-react": "^7.0.0",
+        "autoprefixer": "^9.3.1",
+        "babel-loader": "^8.0.4",
+        "browser-sync": "^2.26.3",
+        "browser-sync-webpack-plugin": "^2.2.2",
+        "css-loader": "^1.0.1",
+        "favicons-webpack-plugin": "^0.0.9",
+        "html-webpack-plugin": "^3.2.0",
+        "mini-css-extract-plugin": "^0.4.5",
+        "postcss-loader": "^3.0.0",
+        "postcss-nested": "^4.1.0",
+        "prettier": "^1.15.2",
+        "uglifyjs-webpack-plugin": "^2.0.1",
+        "webpack": "^4.26.0",
+        "webpack-cli": "^3.1.2",
+        "webpack-dev-server": "^3.1.10"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "bracketSpacing": true,
+        "printWidth": 120,
+        "singleQuote": true,
+        "semi": true
+    },
+    "dependencies": {
+        "classnames": "^2.2.6",
+        "react": "^16.6.3",
+        "react-dom": "^16.6.3"
+    }
+}
