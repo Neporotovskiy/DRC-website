@@ -1,0 +1,30 @@
+:local {
+    .grooves {
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-content: space-between;
+        flex-wrap: wrap;
+
+        .groove {
+            border: 1px solid #222;
+            visibility: hidden;
+
+            &.top {
+                border-top: none;
+            }
+
+            &.bottom {
+                border-bottom: none;
+            }
+
+            &.visible {
+                visibility: visible;
+            }
+        }
+
+        .label {
+            font-size: 12px;
+        }
+    }
+}

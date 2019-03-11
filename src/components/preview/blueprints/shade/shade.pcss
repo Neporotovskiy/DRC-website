@@ -1,0 +1,22 @@
+:local {
+    .shade {
+        position: relative;
+
+        .left-to-right,
+        .right-to-left {
+            border-bottom: 1px solid #222;
+            position: absolute;
+            top: 0;
+        }
+
+        .left-to-right {
+            transform-origin: left;
+            left: 0;
+        }
+
+        .right-to-left {
+            transform-origin: right;
+            right: 0;
+        }
+    }
+}

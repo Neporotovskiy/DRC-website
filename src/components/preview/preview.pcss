@@ -1,0 +1,45 @@
+:local {
+    .hidden {
+        display: none;
+    }
+
+    .header .button:not(:last-child) {
+        margin-right: 20px;
+    }
+
+    .preview {
+        width: 820px;
+        background: #fff;
+        padding: 20px;
+        margin: 50px auto;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .meta {
+        margin-top: 50px;
+    }
+
+    @media print {
+        .header {
+            display: none;
+        }
+
+        .preview {
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            border-radius: 0;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-content: space-between;
+        }
+
+        .meta {
+            margin: 0;
+        }
+    }
+}

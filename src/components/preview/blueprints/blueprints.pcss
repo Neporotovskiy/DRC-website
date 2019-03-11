@@ -1,0 +1,39 @@
+:local {
+    .container {
+        width: 100%;
+    }
+
+    .wrapper {
+        width: 100%;
+        box-sizing: content-box;
+
+        &:not(:first-child) {
+            margin-top: 25px;
+        }
+
+        .blueprints {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .blueprint:not(:last-child) {
+                margin-right: 10px;
+            }
+
+            .body {
+                height: 40px;
+                background: #fff;
+                position: relative;
+                border: 1px solid #222;
+
+                .milestone {
+                    width: 15px;
+                    height: 100%;
+                    position: absolute;
+                    right: 0;
+                }
+            }
+        }
+    }
+}

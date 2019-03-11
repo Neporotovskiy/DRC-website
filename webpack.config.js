@@ -21,35 +21,23 @@ const getProjectName = () =>
 /**
  * Returns modified package name using its context information
  */
-const getPackageName = ({ context }) =>
-    'npm.' + context.match(/\/node_modules\/(.*?)(\/|$)/)[1].replace('@', '');
+const getPackageName = ({ context }) => 'npm.' + context.match(/\/node_modules\/(.*?)(\/|$)/)[1].replace('@', '');
 
 /**
- * Object which provide some output decorators
+ * Prepared list of pages html-templates processors
  */
-const Logger = {
-    error(...args) {
-        console.log(
-            ...args.map(
-                arg => '\u001b[1m\u001b[31m' + arg + '\u001b[39m\u001b[22m',
-            ),
-        );
-    },
-    warn(...args) {
-        console.log(
-            ...args.map(
-                arg => '\u001b[1m\u001b[33m' + arg + '\u001b[39m\u001b[22m',
-            ),
-        );
-    },
-    log(...args) {
-        console.log(
-            ...args.map(
-                arg => '\u001b[1m\u001b[32m' + arg + '\u001b[39m\u001b[22m',
-            ),
-        );
-    },
-};
+const HTMLProcessors = [
+    new HTMLPlugin({
+        filename: 'index.html',
+        title: getProjectName(),
+        template: resolve(__dirname, 'src/assets/application_template.html'),
+    }),
+    new HTMLPlugin({
+        filename: 'instruction.html',
+        title: getProjectName() + ' Manual',
+        template: resolve(__dirname, 'src/assets/instruction_template.html'),
+    }),
+];
 
 const PRODUCTION = {
     stats: {
@@ -64,16 +52,20 @@ const PRODUCTION = {
         errors: true,
     },
     entry: {
-        core: resolve(__dirname, 'src/core/index.js'),
-        UI: resolve(__dirname, 'src/UI/index.jsx'),
+        application: resolve(__dirname, 'src/index.jsx'),
+        instruction: resolve(__dirname, 'src/instruction.jsx'),
     },
     output: {
         path: resolve(__dirname, 'build'),
         filename: '[name]-[hash:10].js',
+        globalObject: 'this',
     },
     resolve: {
         extensions: ['.js', '.jsx'],
-        modules: ['node_modules', 'core', 'UI'],
+        modules: ['node_modules', resolve(__dirname, 'src')],
+        alias: {
+            components: resolve(__dirname, 'src/components'),
+        },
     },
     optimization: {
         minimizer: [
@@ -109,25 +101,26 @@ const PRODUCTION = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: [
-                                '@babel/preset-env',
-                                '@babel/preset-react',
-                            ],
+                            presets: ['@babel/preset-env', '@babel/preset-react'],
                             plugins: [
-                                [
-                                    '@babel/plugin-proposal-class-properties',
-                                    { loose: true },
-                                ],
+                                ['@babel/plugin-proposal-class-properties', { loose: true }],
                                 '@babel/plugin-proposal-do-expressions',
                             ],
                             cacheDirectory: resolve(__dirname, 'cache'),
                         },
                     },
                 ],
-                include: [
-                    resolve(__dirname, 'src/core'),
-                    resolve(__dirname, 'src/UI'),
+                include: [resolve(__dirname, 'src')],
+            },
+            {
+                test: /\.worker\.js$/,
+                use: [
+                    {
+                        loader: 'worker-loader',
+                        options: { inline: true },
+                    },
                 ],
+                include: [resolve(__dirname, 'src')],
             },
             {
                 test: /\.pcss$/,
@@ -140,7 +133,7 @@ const PRODUCTION = {
                             minimize: true,
                             importLoaders: 1,
                             camelCase: 'dashes',
-                            context: resolve(__dirname, 'src/UI'),
+                            context: resolve(__dirname, 'src'),
                             localIdentName: '[local]-[hash:base64:5]',
                         },
                     },
@@ -157,7 +150,20 @@ const PRODUCTION = {
                         },
                     },
                 ],
-                include: [resolve(__dirname, 'src/UI')],
+                include: [resolve(__dirname, 'src')],
+            },
+            {
+                test: /\.(svg|png|jpg|jpeg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            outputPath: 'assets',
+                            name: '[name].[hash].[ext]',
+                        },
+                    },
+                ],
+                include: [resolve(__dirname, 'src')],
             },
         ],
     },
@@ -169,7 +175,7 @@ const PRODUCTION = {
         }),
         new Favicon({
             // https://github.com/haydenbleasel/favicons#usage
-            logo: './src/UI/assets/favicon.png',
+            logo: './src/assets/favicon.png',
             prefix: 'favicons/',
             persistentCache: false,
             icons: {
@@ -185,11 +191,7 @@ const PRODUCTION = {
                 appleStartup: false,
             },
         }),
-        new HTMLPlugin({
-            filename: 'index.html',
-            title: getProjectName(),
-            template: resolve(__dirname, 'src/UI/assets/template.html'),
-        }),
+        ...HTMLProcessors,
     ],
 };
 
@@ -212,9 +214,8 @@ const DEVELOPMENT = {
             },
             {
                 name: 'BSP',
-                reload: true,
                 callback() {
-                    Logger.log(
+                    console.log(
                         '[BROWSERSYNC]:',
                         `WDS working on ${devServerHost}:${devServerPort}.`,
                         `BS working on ${devServerHost}:${browserSyncPort}`,
@@ -226,11 +227,7 @@ const DEVELOPMENT = {
             filename: '[name].css',
             chunkFilename: '[name]-[id].css',
         }),
-        new HTMLPlugin({
-            filename: 'index.html',
-            title: getProjectName(),
-            template: resolve(__dirname, 'src/UI/assets/template.html'),
-        }),
+        ...HTMLProcessors,
     ],
     devServer: {
         contentBase: resolve(__dirname, 'build'),
@@ -249,11 +246,11 @@ const DEVELOPMENT = {
 };
 
 process.on('exit', code => {
-    Logger.log('[WEBPACK]:', 'Good bye! Process was stopped with code:', code);
+    console.log('[WEBPACK]:', 'Good bye! Process was stopped with code:', code);
 });
 
 module.exports = (_, { mode }) => {
-    Logger.log('[WEBPACK]:', `Hey there! We are working using "${mode}" mode`);
+    console.log('[WEBPACK]:', `Hey there! We are working using "${mode}" mode`);
     switch (mode) {
         case 'production': {
             return PRODUCTION;
