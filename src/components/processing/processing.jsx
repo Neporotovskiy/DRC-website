@@ -21,6 +21,8 @@ export class Processing extends Component {
         10: 'Готово.',
     };
 
+    workers = [];
+
     componentDidUpdate(previousProps) {
         const {
             data: { uploading: currentUploadingData },
@@ -30,11 +32,9 @@ export class Processing extends Component {
             data: { uploading: previousUploadingData },
             active: previousActivityStatus,
         } = previousProps;
-        if (currentUploadingData !== null && previousUploadingData === null) {
-            this.setState(this.createInitialFileEntities());
-        } else if (!currentActivityStatus && previousActivityStatus) {
-            this.setState(this.createInitialFileEntities());
-        }
+        const isFileUploaded = currentUploadingData !== null && previousUploadingData === null;
+        const isStepReopened = !currentActivityStatus && previousActivityStatus;
+        if (isFileUploaded || isStepReopened) this.setState(this.createInitialFileEntities());
     }
 
     createInitialFileEntities = () => {
@@ -91,17 +91,18 @@ export class Processing extends Component {
         } = this.getFileEntityByID(id);
 
         const { assetLength, calculationAccuracy, cuttingEdge } = this.getCalculationParameters();
-        this.instance = new Core();
-        this.instance.addEventListener('message', ({ data }) => {
+        const worker = new Core();
+        worker.addEventListener('message', ({ data }) => {
             this.handleCalculationsCoreMessages(id, data);
         });
-        this.instance.postMessage({
+        worker.postMessage({
             label: 'run',
             blueprints,
             assetLength,
             calculationAccuracy,
             cuttingEdge,
         });
+        this.workers.push(worker);
     };
 
     runCoreCalculations = id => () => {
@@ -114,6 +115,11 @@ export class Processing extends Component {
 
     hidePreview = id => () => {
         this.updateFileEntityInState(id, { isPreviewVisible: false });
+    };
+
+    onBack = () => {
+        this.workers.forEach(worker => worker.terminate());
+        this.props.onBack();
     };
 
     PHASES = {
@@ -138,7 +144,6 @@ export class Processing extends Component {
         const {
             active,
             passed,
-            onBack,
             data: { uploading, parametrization },
         } = this.props;
 
@@ -146,7 +151,7 @@ export class Processing extends Component {
             <Section
                 active={active}
                 passed={passed}
-                onBack={onBack}
+                onBack={this.onBack}
                 title={
                     <Fragment>
                         <b>Шаг №3</b>: Рассчитайте и распечатайте результат.

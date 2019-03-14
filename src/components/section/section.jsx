@@ -5,7 +5,7 @@ import { Title } from '../title/title';
 
 import style from './section.pcss';
 
-export const Section = ({ active, passed, valid, onContinue, onBack, title, unmountCallback, children }) => {
+export const Section = ({ active, passed, valid, onContinue, onBack, title, children }) => {
     if (active) {
         const isChildExecutable = typeof children === 'function';
         return (

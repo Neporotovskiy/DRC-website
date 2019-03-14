@@ -1,63 +1,36 @@
 const { resolve } = require('path');
 
-const { name } = require('./package.json');
-
 const webpack = require('webpack');
 const CSSPlugin = require('mini-css-extract-plugin');
-const JSMinimizer = require('uglifyjs-webpack-plugin');
-const Favicon = require('favicons-webpack-plugin');
+const JSMinimizer = require('terser-webpack-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const BrowserSync = require('browser-sync-webpack-plugin');
 
-/**
- * Returns space-separated and capitalized project name using "name" field from package.json
- */
-const getProjectName = () =>
-    name
-        .split('-')
-        .map(word => word[0].toUpperCase() + word.slice(1))
-        .join(' ');
-
-/**
- * Returns modified package name using its context information
- */
-const getPackageName = ({ context }) => 'npm.' + context.match(/\/node_modules\/(.*?)(\/|$)/)[1].replace('@', '');
-
-/**
- * Prepared list of pages html-templates processors
- */
-const HTMLProcessors = [
-    new HTMLPlugin({
-        filename: 'index.html',
-        title: getProjectName(),
-        template: resolve(__dirname, 'src/assets/application_template.html'),
+const PLUGINS = [
+    new CSSPlugin({
+        filename: '[name].css',
+        chunkFilename: '[name]-[id].css',
     }),
     new HTMLPlugin({
-        filename: 'instruction.html',
-        title: getProjectName() + ' Manual',
-        template: resolve(__dirname, 'src/assets/instruction_template.html'),
+        filename: 'index.html',
+        template: resolve(__dirname, 'src/assets/main_template.html'),
+        chunks: ['main'],
+    }),
+    new HTMLPlugin({
+        filename: 'manual.html',
+        template: resolve(__dirname, 'src/assets/manual_template.html'),
+        chunks: ['manual'],
     }),
 ];
 
 const PRODUCTION = {
-    stats: {
-        builtAt: false,
-        cachedAssets: false,
-        children: false,
-        chunks: false,
-        colors: true,
-        depth: true,
-        entrypoints: true,
-        env: true,
-        errors: true,
-    },
     entry: {
-        application: resolve(__dirname, 'src/index.jsx'),
-        instruction: resolve(__dirname, 'src/instruction.jsx'),
+        main: resolve(__dirname, 'src/pages/main/main.jsx'),
+        manual: resolve(__dirname, 'src/pages/manual/manual.jsx'),
     },
     output: {
         path: resolve(__dirname, 'build'),
-        filename: '[name]-[hash:10].js',
+        filename: '[name].js',
         globalObject: 'this',
     },
     resolve: {
@@ -71,6 +44,7 @@ const PRODUCTION = {
         minimizer: [
             new JSMinimizer({
                 parallel: true,
+                cache: true,
                 exclude: ['node_modules'],
             }),
         ],
@@ -85,7 +59,6 @@ const PRODUCTION = {
                 vendor: {
                     name: 'vendor',
                     test: /\/node_modules\//,
-                    name: getPackageName,
                 },
             },
             automaticNameDelimiter: '-',
@@ -153,13 +126,13 @@ const PRODUCTION = {
                 include: [resolve(__dirname, 'src')],
             },
             {
-                test: /\.(svg|png|jpg|jpeg)$/,
+                test: /\.gif$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
+                            name: '[name].[ext]',
                             outputPath: 'assets',
-                            name: '[name].[hash].[ext]',
                         },
                     },
                 ],
@@ -167,32 +140,7 @@ const PRODUCTION = {
             },
         ],
     },
-    plugins: [
-        new webpack.HashedModuleIdsPlugin(),
-        new CSSPlugin({
-            filename: '[name].css',
-            chunkFilename: '[name]-[id].css',
-        }),
-        new Favicon({
-            // https://github.com/haydenbleasel/favicons#usage
-            logo: './src/assets/favicon.png',
-            prefix: 'favicons/',
-            persistentCache: false,
-            icons: {
-                coast: false,
-                yandex: false,
-                favicons: true,
-                firefox: false,
-                twitter: false,
-                android: false,
-                windows: false,
-                appleIcon: false,
-                opengraph: false,
-                appleStartup: false,
-            },
-        }),
-        ...HTMLProcessors,
-    ],
+    plugins: [new webpack.HashedModuleIdsPlugin(), ...PLUGINS],
 };
 
 const devServerHost = 'localhost';
@@ -223,25 +171,17 @@ const DEVELOPMENT = {
                 },
             },
         ),
-        new CSSPlugin({
-            filename: '[name].css',
-            chunkFilename: '[name]-[id].css',
-        }),
-        ...HTMLProcessors,
+        ...PLUGINS,
     ],
     devServer: {
+        host: devServerHost,
+        port: devServerPort,
         contentBase: resolve(__dirname, 'build'),
         hot: true,
         overlay: {
             errors: true,
             warnings: true,
         },
-        host: devServerHost,
-        port: devServerPort,
-        proxy: {
-            '/api': `http://${devServerHost}:${devServerPort}`,
-        },
-        stats: 'minimal',
     },
 };
 
