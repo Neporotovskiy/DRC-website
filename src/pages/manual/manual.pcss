@@ -1,18 +1,18 @@
 :local {
-    h3 {
+    .title {
         margin: 20px 0;
         font-weight: bold;
     }
 
-    a:hover {
-        text-decoration: underline;
-    }
-
-    ul {
+    .links {
         padding: 0 25px;
         list-style-type: decimal-leading-zero;
 
-        li:not(:last-child) {
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .link:not(:last-child) {
             margin-bottom: 10px;
         }
     }
