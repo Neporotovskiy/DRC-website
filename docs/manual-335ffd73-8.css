@@ -1,0 +1,15 @@
+.title-25a1i {
+        margin: 20px 0;
+        font-weight: bold;
+    }
+    .links-1owcj {
+        padding: 0 25px;
+        list-style-type: decimal-leading-zero;
+    }
+    .links-1owcj .link-16WJg:hover {
+            text-decoration: underline;
+        }
+    .links-1owcj .link-16WJg:not(:last-child) {
+            margin-bottom: 10px;
+        }
+

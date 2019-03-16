@@ -29,7 +29,7 @@ const PRODUCTION = {
         manual: resolve(__dirname, 'src/pages/manual/manual.jsx'),
     },
     output: {
-        path: resolve(__dirname, 'build'),
+        path: resolve(__dirname, 'docs'),
         filename: '[name].js',
         globalObject: 'this',
     },
@@ -173,7 +173,7 @@ const DEVELOPMENT = {
     devServer: {
         host: devServerHost,
         port: devServerPort,
-        contentBase: resolve(__dirname, 'build'),
+        contentBase: resolve(__dirname, 'docs'),
         hot: true,
         overlay: {
             errors: true,
