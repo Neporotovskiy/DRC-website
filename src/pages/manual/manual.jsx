@@ -10,11 +10,7 @@ import style from './manual.pcss';
 
 export const Container = () => (
     <Fragment>
-        <Header>
-            <div onClick={window.close} className="button">
-                Закрыть
-            </div>
-        </Header>
+        <Header />
         <Section active title="Delma Resource Calculator (DRC) - Инструкция пользователя">
             <section>
                 <h3 className={style.title} id="files-selection">
