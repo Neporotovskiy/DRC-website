@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
-import { Header } from '../header/header';
+import { Header } from '../../components/header/header';
 import { Blueprints } from '../preview/blueprints/blueprints';
 import { Meta } from '../preview/meta/meta';
 

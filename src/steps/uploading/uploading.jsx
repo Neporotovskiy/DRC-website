@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 
-import { Section } from '../section/section';
+import { Section } from '../../components/section/section';
 
 import style from './uploading.pcss';
 

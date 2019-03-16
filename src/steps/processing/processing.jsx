@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Section } from '../section/section';
+import { Section } from '../../components/section/section';
 import { Meta } from '../preview/meta/meta';
 import { Preview } from '../preview/preview';
 

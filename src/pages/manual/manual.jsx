@@ -107,13 +107,13 @@ export const Container = () => (
                 <h3 className={style.title}>Полезные ссылки</h3>
                 <ul className={style.links}>
                     <li className={style.link}>
-                        <a href="#">Образец обрабатываемой структуры данных</a>
+                        <a href="https://github.com/Neporotovskiy/DRC-website/blob/master/STRUCTURE.md">Образец обрабатываемой структуры данных</a>
                     </li>
                     <li className={style.link}>
-                        <a href="#">Репозиторий, содержащий исходный код данного приложения</a>
+                        <a href="https://github.com/Neporotovskiy/DRC-website">Репозиторий, содержащий исходный код данного приложения</a>
                     </li>
                     <li className={style.link}>
-                        <a href="#">Репозиторий, содержащий исходный код алгоритма расчетов</a>
+                        <a href="https://github.com/Neporotovskiy/DRC-core">Репозиторий, содержащий исходный код алгоритма расчетов</a>
                     </li>
                     <li className={style.link}>
                         <a href="mailto:neanstudio@gmail.com?subject=Delma%20Resource%20Calculator%20-%20%D0%92%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B%2F%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D1%8B%2F%D0%9F%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F&body=%D0%94%D0%BE%D0%B1%D1%80%D1%8B%D0%B9%20%D0%B4%D0%B5%D0%BD%D1%8C%20Neanstudio.">

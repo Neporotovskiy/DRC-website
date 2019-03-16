@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 import { Section } from '../../components/section/section';
 import { Title } from '../../components/title/title';
 import { Header } from '../../components/header/header';
-import { Uploading } from '../../components/uploading/uploading';
-import { Parameterization } from '../../components/parameterization/parameterization';
-import { Processing } from '../../components/processing/processing';
+import { Uploading } from '../../steps/uploading/uploading';
+import { Parameterization } from '../../steps/parameterization/parameterization';
+import { Processing } from '../../steps/processing/processing';
 
 import '../../normalize.pcss';
 import '../../common.pcss';
