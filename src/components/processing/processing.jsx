@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
 import { Section } from '../section/section';
 import { Meta } from '../preview/meta/meta';
@@ -153,9 +153,19 @@ export class Processing extends Component {
                 passed={passed}
                 onBack={this.onBack}
                 title={
-                    <Fragment>
-                        <b>Шаг №3</b>: Рассчитайте и распечатайте результат.
-                    </Fragment>
+                    <div className="title">
+                        <span>
+                            <b>Шаг №3</b>: Рассчитайте и распечатайте результат.
+                        </span>
+                        <a
+                            target="_blank"
+                            href="manual.html#calculation-and-rendering"
+                            title="Инструкция к третьему шагу"
+                            className="help"
+                        >
+                            ?
+                        </a>
+                    </div>
                 }
             >
                 {() =>

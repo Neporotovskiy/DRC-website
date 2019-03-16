@@ -1,6 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
 import ReactDOM from 'react-dom';
-import classNames from 'classnames';
 
 import { Section } from '../../components/section/section';
 import { Title } from '../../components/title/title';
@@ -11,7 +10,6 @@ import { Processing } from '../../components/processing/processing';
 
 import '../../normalize.pcss';
 import '../../common.pcss';
-import style from './main.pcss';
 
 export class Container extends PureComponent {
     state = {
@@ -86,14 +84,7 @@ export class Container extends PureComponent {
 
         return (
             <Fragment>
-                <Header>
-                    <a href="./manual.html" target="_blank" className={classNames('button', style.button)}>
-                        Инструкция
-                    </a>
-                    <a href="./requirements.html" target="_blank" className={classNames('button', style.button)}>
-                        Требования
-                    </a>
-                </Header>
+                <Header/>
                 {this.steps.map(({ component: Component, name }, index) => (
                     <Component
                         key={index}

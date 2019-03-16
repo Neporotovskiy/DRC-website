@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 
 import { Section } from '../section/section';
@@ -25,11 +25,11 @@ const validate = value => {
 const fields = {
     cuttingEdge: {
         placeholder: 'Укажите ширину режущей кромки',
-        units: ['mm', 'миллиметр'],
+        unit: 'mm',
         tip: (
             <span>
-                <b>Ширина режущей кромки полотна</b>, которое будет использоваться для разделения заготовки на готовые
-                изделия. Это необходимо для внесения погрешности при рассчетах количества итоговых изделий в заготовке.
+                <b>Ширина режущей кромки полотна</b> - ширина режущей кромки полотна, которое будет использоваться для
+                разделения заготовки на готовые изделия.
             </span>
         ),
         validation: value => {
@@ -38,12 +38,11 @@ const fields = {
         },
     },
     assetLength: {
-        placeholder: 'Укажите длину одной заготовки',
-        units: ['mm', 'миллиметр'],
+        placeholder: 'Укажите длину заготовки',
+        unit: 'mm',
         tip: (
             <span>
-                <b>Минимальная длина отдельно взятой заготовки</b>, используется для разделения заготовки на готовые
-                изделия с учетом ширины режущей кромки полотна.
+                <b>Длина заготовки</b> - длина бруса, из которого будут нарезаться готовые изделия.
             </span>
         ),
         validation: value => !validate(value).isNotNumber(),
@@ -52,9 +51,8 @@ const fields = {
         placeholder: ' Укажите точность рассчетов',
         tip: (
             <span>
-                <b>Точность расчетов</b>, указывает с какой точностью должен работать алгоритм. В это поле необходимо
-                ввести количество знаков после запятой, которое будет использоваться алгоритмом для рассчетов.
-                По-умолчанию используется точность до сотых частей миллиметра.
+                <b>Точность расчетов</b> - указывает, с какой точностью должен работать алгоритм рассчетов. По-умолчанию
+                используется точность до десятых частей миллиметра.
             </span>
         ),
         validation: value => {
@@ -106,48 +104,51 @@ export class Parameterization extends PureComponent {
                 onBack={onBack}
                 onContinue={this.onContinue}
                 title={
-                    <Fragment>
-                        <b>Шаг №2</b>: Укажите необходимые размеры и допуски.
-                    </Fragment>
+                    <div className="title">
+                        <span>
+                            <b>Шаг №2</b>: Укажите необходимые размеры и допуски.
+                        </span>
+                        <a
+                            href="manual.html#parameters-passing"
+                            target="-blank"
+                            title="Инструкция ко второму шагу"
+                            className="help"
+                        >
+                            ?
+                        </a>
+                    </div>
                 }
             >
                 {Object.keys(fields).map(key => {
-                    const { placeholder, units, tip } = fields[key];
+                    const { placeholder, unit, tip } = fields[key];
                     const { [key]: value } = this.state;
 
                     return (
                         <div className={style.line} key={key}>
+                            <label htmlFor={key} className={style.label}>
+                                {placeholder}
+                            </label>
                             <input
+                                id={key}
                                 type="text"
                                 maxLength="7"
                                 value={value}
                                 className={style.input}
-                                placeholder={placeholder}
                                 onChange={this.updateValue(key)}
                             />
                             <div className={style.additionalContent}>
-                                {do {
-                                    if (typeof units !== 'undefined') {
-                                        const [label, name] = units;
-                                        <div
-                                            className={classNames(style.additionalContentItem, style.units)}
-                                            title={`Единица измерения: ${name}`}
-                                        >
-                                            {label}
-                                        </div>;
-                                    } else null;
-                                }}
-                                {do {
-                                    if (typeof tip !== 'undefined') {
-                                        <div
-                                            className={classNames(style.additionalContentItem, style.tip)}
-                                            title="Подсказка"
-                                        >
-                                            <span>Подсказка</span>
-                                            <div className={style.content}>{tip}</div>
-                                        </div>;
-                                    } else null;
-                                }}
+                                {typeof unit !== 'undefined' && (
+                                    <div className={classNames(style.additionalContentItem, style.units)}>{unit}</div>
+                                )}
+                                {typeof tip !== 'undefined' && (
+                                    <div
+                                        className={classNames(style.additionalContentItem, style.tip)}
+                                        title="Подсказка"
+                                    >
+                                        <span>Подсказка</span>
+                                        <div className={style.content}>{tip}</div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     );

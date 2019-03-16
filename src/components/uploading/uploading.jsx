@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 
 import { Section } from '../section/section';
@@ -126,9 +126,14 @@ export class Uploading extends PureComponent {
                 valid={valid}
                 onContinue={this.onContinue}
                 title={
-                    <Fragment>
-                        <b>Шаг №1</b>: Выберите подготовленный <b>.json</b> файл.
-                    </Fragment>
+                    <div className="title">
+                        <span>
+                            <b>Шаг №1</b>: Выберите подготовленный <b>json</b> файл.
+                        </span>
+                        <a target="_blank" href="manual.html#files-selection" title="Инструкция к первому шагу" className="help">
+                            ?
+                        </a>
+                    </div>
                 }
             >
                 <p>Поместите файл(ы) в область ниже, или кликните по ней для вызова окна выбора файла.</p>

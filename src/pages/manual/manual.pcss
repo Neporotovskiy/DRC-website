@@ -1,28 +1,19 @@
 :local {
-    .illustration {
-        width: 100%;
-        margin: 20px auto;
+    h3 {
+        margin: 20px 0;
+        font-weight: bold;
+    }
 
-        .wrapper {
-            padding: 20px;
-            background: #eee;
-            border-radius: 5px;
-            overflow: hidden;
-        }
+    a:hover {
+        text-decoration: underline;
+    }
 
-        .image {
-            display: block;
-            width: auto;
-            max-width: 740px;
-            margin: 0 auto;
-            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-        }
+    ul {
+        padding: 0 25px;
+        list-style-type: decimal-leading-zero;
 
-        .description {
-            margin-top: 20px;
-            text-align: center;
-            color: #bbb;
-            font-size: 12px;
+        li:not(:last-child) {
+            margin-bottom: 10px;
         }
     }
 }
